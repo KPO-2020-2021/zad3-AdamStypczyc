@@ -2,6 +2,8 @@
 
 #include "size.hh"
 #include <iostream>
+#include <iomanip>
+#define MIN_DIFF 0.0000000001
 
 class Vector
 {
@@ -25,6 +27,8 @@ public:
     const double &operator[](int index) const;
 
     double &operator[](int index);
+
+    bool operator == (const Vector V)const;
 };
 
 std::ostream &operator<<(std::ostream &out, Vector const &tmp);
@@ -172,6 +176,15 @@ const double &Vector::operator[](int index) const
 double &Vector::operator[](int index)
 {
     return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
+}
+
+bool Vector::operator == (const Vector V)const
+{
+    if(abs(size[0]-V[0])<MIN_DIFF && abs(size[1]-V[1])<MIN_DIFF)
+    {
+        return true;
+    }
+    return false;
 }
 
 /******************************************************************************

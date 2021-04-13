@@ -1,6 +1,6 @@
 #pragma once
 
-#define MIN_DIFF 0.00000000001
+
 #include <iostream>
 #include <cmath>
 #include "vector.hh"

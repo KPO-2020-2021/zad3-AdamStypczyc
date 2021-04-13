@@ -13,14 +13,16 @@ private:
     double value[SIZE][SIZE]; // Wartosci macierzy
     double kat_stopnie;
     double kat_radian;
+
 public:
     Matrix(double[SIZE][SIZE]); // Konstruktor klasy
 
-    Matrix(double kat_stopnie=0); // Konstruktor klasy
+    Matrix(); // Konstruktor klasy
 
     Vector operator*(Vector tmp); // Operator mnożenia przez wektor
 
     Matrix operator+(Matrix tmp);
+    Matrix operator-(Matrix tmp);
 
     double &operator()(unsigned int row, unsigned int column);
 
@@ -28,6 +30,7 @@ public:
     void StopienNaRadian();
     void Oblicz_tablice();
     void przypisz_stopnie(double stopnie);
+    bool operator == (const Matrix tmp)const;
 };
 
 std::istream &operator>>(std::istream &in, Matrix &mat);
@@ -41,7 +44,7 @@ std::ostream &operator<<(std::ostream &out, Matrix const &mat);
  |  Zwraca:                                                                   |
  |      Macierz wypelnione wartoscia 0.                                       |
  */
-Matrix::Matrix(double kat_stopnie)
+Matrix::Matrix()
 {
     for (int i = 0; i < SIZE; ++i)
     {
@@ -50,7 +53,6 @@ Matrix::Matrix(double kat_stopnie)
             value[i][j] = 0;
         }
     }
-    this->kat_stopnie=kat_stopnie;
 }
 
 /******************************************************************************
@@ -165,7 +167,18 @@ Matrix Matrix::operator+(Matrix tmp)
     }
     return result;
 }
-
+Matrix Matrix::operator-(Matrix tmp)
+{
+    Matrix result;
+    for (int i = 0; i < SIZE; ++i)
+    {
+        for (int j = 0; j < SIZE; ++j)
+        {
+            result(i, j) = this->value[i][j] - tmp(i, j);
+        }
+    }
+    return result;
+}
 /******************************************************************************
  |  Przeciazenie operatora >>                                                 |
  |  Argumenty:                                                                |
@@ -209,12 +222,21 @@ void Matrix::StopienNaRadian()
 }
 void Matrix::Oblicz_tablice()
 {
-    value[0][0]=cos(kat_radian);
-    value[0][1]=-sin(kat_radian);
-    value[1][0]=sin(kat_radian);
-    value[1][1]=cos(kat_radian);
+    value[0][0] = cos(kat_radian);
+    value[0][1] = -sin(kat_radian);
+    value[1][0] = sin(kat_radian);
+    value[1][1] = cos(kat_radian);
 }
 void Matrix::przypisz_stopnie(double stopnie)
 {
-    kat_stopnie=stopnie;
+    kat_stopnie = stopnie;
 }
+
+// bool Matrix::operator == (const Matrix tmp)const
+// {
+//     if(abs(this->value[0][0]-tmp(0, 0))<MIN_DIFF && abs(this->value[1][0]-tmp(1, 0))<MIN_DIFF && abs(this->value[0][1]-tmp(0, 1))<MIN_DIFF && abs(this->value[1][1]-tmp(1,1))<MIN_DIFF )
+//     {
+//         return true;
+//     }
+//     return false;
+// }

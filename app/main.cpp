@@ -111,7 +111,7 @@ int main()
        Matrix obrot;
        Prostokat Pr;
        // int n;
-       double tab1[2] = {30, 60};
+       double tab1[2] = {0, 0};
        double tab2[2] = {40, 60};
        std::cout << "Project Rotation 2D based on C++ Boiler Plate v"
                  << PROJECT_VERSION_MAJOR /*duże zmiany, najczęściej brak kompatybilności wstecz */
@@ -174,15 +174,25 @@ int main()
        std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
        std::cin.ignore(100000, '\n');
        //--------------------------
-       obrot = Matrix(45);
+       obrot = Matrix();
+       obrot.przypisz_stopnie(45);
        obrot.StopienNaRadian();
        obrot.Oblicz_tablice();
        // std::cout << "Ile razy ma się obrócić? " << std::endl;
-       // std::cin >>n;
-       // for (int i = 0; i < n; i++)
+       // std::cin >> n;
+       // if (n == 1)
        // {
               if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat", Pr * obrot))
                      return 1;
+       // }
+       // else
+       // {
+       //        for (int i = 0; i < n; i++)
+       //        {
+       //               Pr = Pr * obrot;
+       //               if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat", Pr))
+       //                      return 1;
+       //        }
        // }
        Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
        std::cout << Pr;
