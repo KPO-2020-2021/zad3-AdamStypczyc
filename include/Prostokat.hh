@@ -77,11 +77,11 @@ void Prostokat::dlugosc()
     std::cout << std::endl;
     if (abs(Bok0 - Bok2) < MIN_DIFF && abs(Bok1 - Bok3) < MIN_DIFF)
     {
-        std::cout << ":) Boki są sobie równe, a ich długości wynoszą: " << std::endl;
+        std::cout << ":) Naprzeciwległe boki są sobie równe, a ich długości wynoszą: " << std::endl;
     }
     else
     {
-        std::cout << ":( Boki nie są sobie równe, a ich długości wynoszą: " << std::endl;
+        std::cout << ":( Naprzeciwległe boki nie są sobie równe, a ich długości wynoszą: " << std::endl;
     }
     std::cout << Bok0 << std::endl;
     std::cout << Bok1 << std::endl;
@@ -111,6 +111,7 @@ std::ostream &operator<<(std::ostream &Strm, const Prostokat &Pr)
     Strm << std::setw(20) << std::fixed << std::setprecision(10) << Pr[0] << std::endl;
     return Strm;
 }
+
 std::istream &operator>>(std::istream &Strm, const Prostokat &Pr)
 {
     for (int i = 0; i < 2 * SIZE; ++i)

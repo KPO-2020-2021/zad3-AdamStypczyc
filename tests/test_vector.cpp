@@ -66,8 +66,7 @@ TEST_CASE("test Vector Suma 7")
   z = Vector(tab3);
   CHECK(x + y == z);
 }
-TEST_CASE("test Vector Różnica 1")
-{
+TEST_CASE("test Vector Różnica 1"){
   Vector x, y, z;
   double tab1[2] = {1, 1}, tab2[2] = {1, -3}, tab3[2] = {0, 4};
   x = Vector(tab1);

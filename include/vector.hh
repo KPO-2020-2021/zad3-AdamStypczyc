@@ -199,6 +199,12 @@ std::ostream &operator<<(std::ostream &out, Vector const &tmp)
     out << tmp[0] << " " << tmp[1];
     return out;
 }
+// std::ofstream &operator<<(std::ofstream &Strm, Vector const &tmp)
+// {
+//     //zmieniony sposób wyświetlania wektora
+//     Strm << tmp[0] << " " << tmp[1];
+//     return Strm;
+// }
 
 /******************************************************************************
  |  Przeciazenie operatora >>                                                 |
