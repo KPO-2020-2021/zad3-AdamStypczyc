@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef MATRIX_HH
+#define MATRIX_HH
 #include "size.hh"
 #include "vector.hh"
 #include <iostream>
@@ -28,7 +28,7 @@ public:
 
     const double &operator()(unsigned int row, unsigned int column) const;
     void StopienNaRadian();
-    void Oblicz_tablice();
+    void Oblicz_Macierz_Obrotu();
     void przypisz_stopnie(double stopnie);
     bool operator == (const Matrix tmp)const;
 };
@@ -37,12 +37,12 @@ std::istream &operator>>(std::istream &in, Matrix &mat);
 
 std::ostream &operator<<(std::ostream &out, Matrix const &mat);
 
-/******************************************************************************
- |  Konstruktor klasy Matrix.                                                 |
- |  Argumenty:                                                                |
- |      Brak argumentow.                                                      |
- |  Zwraca:                                                                   |
- |      Macierz wypelnione wartoscia 0.                                       |
+/*!
+ *  Konstruktor klasy Matrix.                                                 
+ *  Argumenty:                                                                
+ *      Brak argumentow.                                                      
+ *  Zwraca:                                                                   
+ *     Macierz wypelnione wartoscia 0.                                       
  */
 Matrix::Matrix()
 {
@@ -55,12 +55,12 @@ Matrix::Matrix()
     }
 }
 
-/******************************************************************************
- |  Konstruktor parametryczny klasy Matrix.                                              |
- |  Argumenty:                                                                |
- |      tmp - dwuwymiarowa tablica z elementami typu double.                               |
- |  Zwraca:                                                                   |
- |      Macierz wypelniona wartosciami podanymi w argumencie.                 |
+/*!
+ *  Konstruktor parametryczny klasy Matrix.                                              
+ *  Argumenty:                                                                
+ *      tmp - dwuwymiarowa tablica z elementami typu double.                               
+ *  Zwraca:                                                                   
+ *      Macierz wypelniona wartosciami podanymi w argumencie.                 
  */
 Matrix::Matrix(double tmp[SIZE][SIZE])
 {
@@ -73,13 +73,13 @@ Matrix::Matrix(double tmp[SIZE][SIZE])
     }
 }
 
-/******************************************************************************
- |  Realizuje mnozenie macierzy przez wektor.                                 |
- |  Argumenty:                                                                |
- |      this - macierz, czyli pierwszy skladnik mnozenia,                     |
- |      v - wektor, czyli drugi skladnik mnozenia.                            |
- |  Zwraca:                                                                   |
- |      Iloczyn dwoch skladnikow przekazanych jako wektor.                    |
+/*!
+ *  Realizuje mnozenie macierzy przez wektor.                                
+ *  Argumenty:                                                                
+ *      this - macierz, czyli pierwszy skladnik mnozenia,                     
+ *     v - wektor, czyli drugi skladnik mnozenia.                            
+ *  Zwraca:                                                                   
+ *      Iloczyn dwoch skladnikow przekazanych jako wektor.                    
  */
 
 Vector Matrix::operator*(Vector tmp)
@@ -95,13 +95,13 @@ Vector Matrix::operator*(Vector tmp)
     return result;
 }
 
-/******************************************************************************
- |  Funktor macierzy                                                          |
- |  Argumenty:                                                                |
- |      row - numer wiersza.                                                  |
- |      column - numer kolumny.                                               |
- |  Zwraca:                                                                   |
- |      Wartosc macierzy w danym miejscu tablicy.                             |
+/*!
+ *  Funktor macierzy                                                          
+ *  Argumenty:                                                                
+ *      row - numer wiersza.                                                  
+ *      column - numer kolumny.                                               
+ *  Zwraca:                                                                   
+ *      Wartosc macierzy w danym miejscu tablicy.                             
  */
 double &Matrix::operator()(unsigned int row, unsigned int column)
 {
@@ -121,13 +121,13 @@ double &Matrix::operator()(unsigned int row, unsigned int column)
     return value[row][column];
 }
 
-/******************************************************************************
- |  Funktor macierzy                                                          |
- |  Argumenty:                                                                |
- |      row - numer wiersza.                                                  |
- |      column - numer kolumny.                                               |
- |  Zwraca:                                                                   |
- |      Wartosc macierzy w danym miejscu tablicy jako stala.                  |
+/*!
+ *  Funktor macierzy                                                          
+ *  Argumenty:                                                                
+ *      row - numer wiersza.                                                  
+ *      column - numer kolumny.                                               
+ *  Zwraca:                                                                   
+ *      Wartosc macierzy w danym miejscu tablicy jako stala.                  
  */
 const double &Matrix::operator()(unsigned int row, unsigned int column) const
 {
@@ -147,13 +147,13 @@ const double &Matrix::operator()(unsigned int row, unsigned int column) const
     return value[row][column];
 }
 
-/******************************************************************************
- |  Przeciążenie dodawania macierzy                                                          |
- |  Argumenty:                                                                |
- |      this - macierz, czyli pierwszy skladnik dodawania,                     |
- |      v - wektor, czyli drugi skladnik dodawania.                                               |
- |  Zwraca:                                                                   |
- |      Macierz - iloczyn dwóch podanych macierzy.                  |
+/*!
+ *  Przeciążenie dodawania macierzy                                                          
+ *  Argumenty:                                                                
+ *      this - macierz, czyli pierwszy skladnik dodawania,                     
+ *      v - wektor, czyli drugi skladnik dodawania.                                               
+ *  Zwraca:                                                                   
+ *      Macierz - iloczyn dwóch podanych macierzy.                  
  */
 Matrix Matrix::operator+(Matrix tmp)
 {
@@ -179,11 +179,11 @@ Matrix Matrix::operator-(Matrix tmp)
     }
     return result;
 }
-/******************************************************************************
- |  Przeciazenie operatora >>                                                 |
- |  Argumenty:                                                                |
- |      in - strumien wyjsciowy,                                              |
- |      mat - macierz.                                                         |
+/*!
+ *  Przeciazenie operatora >>                                                 
+ *  Argumenty:                                                                
+ *      in - strumien wyjsciowy,                                              
+ *      mat - macierz.                                                         
  */
 std::istream &operator>>(std::istream &in, Matrix &mat)
 {
@@ -197,11 +197,11 @@ std::istream &operator>>(std::istream &in, Matrix &mat)
     return in;
 }
 
-/******************************************************************************
- |  Przeciazenie operatora <<                                                 |
- |  Argumenty:                                                                |
- |      out - strumien wejsciowy,                                             |
- |      mat - macierz.                                                        |
+/*!
+ *  Przeciazenie operatora <<                                                 
+ *  Argumenty:                                                                
+ *      out - strumien wejsciowy,                                             
+ *      mat - macierz.                                                        
  */
 std::ostream &operator<<(std::ostream &out, const Matrix &mat)
 {
@@ -220,7 +220,7 @@ void Matrix::StopienNaRadian()
 {
     kat_radian = kat_stopnie * M_PI / 180;
 }
-void Matrix::Oblicz_tablice()
+void Matrix::Oblicz_Macierz_Obrotu()
 {
     value[0][0] = cos(kat_radian);
     value[0][1] = -sin(kat_radian);
@@ -232,11 +232,12 @@ void Matrix::przypisz_stopnie(double stopnie)
     kat_stopnie = stopnie;
 }
 
-// bool Matrix::operator == (const Matrix tmp)const
-// {
-//     if(abs(this->value[0][0]-tmp(0, 0))<MIN_DIFF && abs(this->value[1][0]-tmp(1, 0))<MIN_DIFF && abs(this->value[0][1]-tmp(0, 1))<MIN_DIFF && abs(this->value[1][1]-tmp(1,1))<MIN_DIFF )
-//     {
-//         return true;
-//     }
-//     return false;
-// }
+bool Matrix::operator == (const Matrix tmp)const
+{
+    if(abs(this->value[0][0]-tmp(0, 0))<MIN_DIFF && abs(this->value[1][0]-tmp(1, 0))<MIN_DIFF && abs(this->value[0][1]-tmp(0, 1))<MIN_DIFF && abs(this->value[1][1]-tmp(1,1))<MIN_DIFF )
+    {
+        return true;
+    }
+    return false;
+}
+#endif

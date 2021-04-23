@@ -1,9 +1,6 @@
-#pragma once
+#ifndef PROSTOKAT_HH
+#define PROSTOKAT_HH
 
-
-#include <iostream>
-#include <cmath>
-#include "vector.hh"
 #include "matrix.hh"
 
 class Prostokat
@@ -121,3 +118,4 @@ std::istream &operator>>(std::istream &Strm, const Prostokat &Pr)
     std::cout << std::endl;
     return Strm;
 }
+#endif

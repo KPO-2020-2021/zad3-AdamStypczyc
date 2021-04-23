@@ -21,10 +21,6 @@
  * 
  * EDIT: dodane kreowanie wektorow i macierzy plus obsluga lacza do gnuplota
  */
-
-#define DL_KROTKI_BOK 100
-#define DL_DLUGI_BOK 150
-
 /*!
  * Przyklad zapisu wspolrzednych zbioru punktow do strumienia wyjściowego.
  * Dane sa odpowiednio sformatowane, tzn. przyjęto notację stałoprzecinkową
@@ -39,37 +35,6 @@
  * \retval true - gdy operacja zapisu powiodła się,
  * \retval false - w przypadku przeciwnym.
  */
-void PrzykladZapisuWspolrzednychDoStrumienia(std::ostream &StrmWy,
-                                             double Przesuniecie)
-{
-    //---------------------------------------------------------------
-    // To tylko przyklad !!!
-    // W programie nalezy uzywać pojęcia wektora, a nie oddzielnych
-    // zmiennych do reprezentowania wspolrzednych!
-    //
-    double x1, y1, x2, y2, x3, y3, x4, y4;
-
-    x1 = y1 = 10;
-    x2 = x1 + DL_DLUGI_BOK;
-    y2 = y1;
-    x3 = x2;
-    y3 = y2 + DL_KROTKI_BOK;
-    x4 = x3 - DL_DLUGI_BOK;
-    y4 = y3;
-
-    StrmWy << std::setw(16) << std::fixed << std::setprecision(10) << x1 + Przesuniecie
-           << std::setw(16) << std::fixed << std::setprecision(10) << y1 + Przesuniecie << std::endl;
-    StrmWy << std::setw(16) << std::fixed << std::setprecision(10) << x2 + Przesuniecie
-           << std::setw(16) << std::fixed << std::setprecision(10) << y2 + Przesuniecie << std::endl;
-    StrmWy << std::setw(16) << std::fixed << std::setprecision(10) << x3 + Przesuniecie
-           << std::setw(16) << std::fixed << std::setprecision(10) << y3 + Przesuniecie << std::endl;
-    StrmWy << std::setw(16) << std::fixed << std::setprecision(10) << x4 + Przesuniecie
-           << std::setw(16) << std::fixed << std::setprecision(10) << y4 + Przesuniecie << std::endl;
-    StrmWy << std::setw(16) << std::fixed << std::setprecision(10) << x1 + Przesuniecie
-           << std::setw(16) << std::fixed << std::setprecision(10) << y1 + Przesuniecie << std::endl;
-    // Jeszcze raz zapisujemy pierwszy punkt,
-    // aby gnuplot narysowal zamkniętą linię.
-}
 
 /*!
  * Przyklad zapisu wspolrzednych zbioru punktow do pliku, z ktorego
@@ -83,7 +48,7 @@ void PrzykladZapisuWspolrzednychDoStrumienia(std::ostream &StrmWy,
  * \retval true - gdy operacja zapisu powiodła się,
  * \retval false - w przypadku przeciwnym.
  */
-bool PrzykladZapisuWspolrzednychDoPliku(const char *sNazwaPliku, Prostokat Pr)
+bool ZapisWspolrzednychDoPliku(const char *sNazwaPliku, Prostokat Pr)
 {
     std::ofstream StrmPlikowy;
 
@@ -113,25 +78,51 @@ void pokaz_menu(char &wybor)
 }
 int menu()
 {
-    long int n;
-    char wybor;
-    Prostokat Pr;
-    Vector translacja;
-    Vector poczatek;
-    Matrix obrot;
-    double tab1[2];
-    double tab2[2];
-    double w, h;
-    PzG::LaczeDoGNUPlota Lacze;
-    double kat;
+    long int n;                 //ilość obrotów
+    char wybor;                 //wybór użytkownika
+    Prostokat Pr;               //prostokat
+    Vector translacja;          //wektor przesunięcia
+    Vector poczatek;            //vector odpowiedzialny za początkowy punkt prostokata
+    Matrix obrot;               //macierz obrotu
+    double tab1[2];             //tu wpisujemy współrzędne wektora początkowego
+    double tab2[2];             //tu wpisujemy współrzędne wektora przesunięcia
+    double w, h;                //w-szerokość prostokąta, h-wysokość
+    PzG::LaczeDoGNUPlota Lacze; //łącze do gnuplota
+    double kat;                 //kąt
+    /*!
+     * Linie 96 - 103 i 118
+     * tworzenie prostokąta
+     */
     std::cout << "Od jakiego punktu mają wychodzić pozostałe punkty?\nPodaj współrzędne x,y " << std::endl;
     std::cin >> tab1[0];
     std::cin >> tab1[1];
     poczatek = Vector(tab1);
     std::cout << "Podaj szerokość prostokata" << std::endl;
-    std::cin >> w;
+    while(1)
+    {
+        std::cin >> w;
+        if(w==0)
+        {
+            std::cerr << "Błąd!!! Szerokość nie może być równa 0.\nPodaj wartość jeszcze raz." <<std::endl;
+        }
+        else
+        {
+            break;
+        }
+    }
     std::cout << "Podaj wysokość prostokata" << std::endl;
-    std::cin >> h;
+    while(1)
+    {
+        std::cin >> h;
+        if(h==0)
+        {
+            std::cerr << "Błąd!!! Wysokość nie może być równa 0.\nPodaj wartość jeszcze raz." <<std::endl;
+        }
+        else
+        {
+            break;
+        }
+    }
     std::cout << "------------------------------------" << std::endl;
     //   1. Rysowane jako linia ciagl o grubosci 2 piksele
     //
@@ -148,51 +139,69 @@ int menu()
     //
     Lacze.ZmienTrybRys(PzG::TR_2D);
     Pr = Prostokat(poczatek, h, w);
-    if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat", Pr))
+    if (!ZapisWspolrzednychDoPliku("../datasets/prostokat.dat", Pr))
         return 1;
     Lacze.Rysuj();
+    //rysowanie początkowego prostokąta
     while (1)
     {
+        //wyświetlanie menu
         pokaz_menu(wybor);
         switch (wybor)
         {
         case 'o':
+            /*!
+             * tworzenie macierzy obrotu
+             * i obrót
+             */
             std::cout << "O jaki kąt ma się obrócić?" << std::endl;
             std::cin >> kat;
+            std::cout << "Ile razy ma się obrócić? " << std::endl;
+            std::cin >> n;
+            kat = kat * n;
+            while(kat < 0)
+            {
+                kat = kat + 360;
+            }
+            while(kat > 0)
+            {
+                kat = kat - 360;
+            }
             obrot = Matrix();
             obrot.przypisz_stopnie(kat);
             obrot.StopienNaRadian();
-            obrot.Oblicz_tablice();
-            std::cout << "Ile razy ma się obrócić? " << std::endl;
-            std::cin >> n;
-            n = n % 36;
-            for (int i = 0; i < n; ++i)
-            {
-                Pr = Pr * obrot;
-                if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat", Pr))
+            obrot.Oblicz_Macierz_Obrotu();
+                if (!ZapisWspolrzednychDoPliku("../datasets/prostokat.dat", Pr * obrot))
                     return 1;
-            }
             Lacze.Rysuj();
+            //wyświetlenie długości boków prostokąta Pr
             Pr.dlugosc();
             std::cout << "------------------------------------" << std::endl;
             break;
         case 'p':
+            /*!
+             * tworzenie wktora przesunięcia
+             * i przesunięcie
+             */
             translacja = Vector();
             std::cout << "O jaki wektor [x,y] ma być przesunięty prostokat? \nPodaj dwie liczby, 1. to x, a 2. to y" << std::endl;
             std::cin >> tab2[0];
             std::cin >> tab2[1];
             translacja = Vector(tab2);
-            if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat", Pr + translacja))
+            Pr = Pr + translacja;
+            if (!ZapisWspolrzednychDoPliku("../datasets/prostokat.dat", Pr))
                 return 1;
             Lacze.Rysuj();
             Pr.dlugosc();
             std::cout << "------------------------------------" << std::endl;
             break;
         case 'w':
+            //wyświetlanie wsþółrzędnych prostokąta
             std::cout << Pr;
             std::cout << "------------------------------------" << std::endl;
             break;
         case 'm':
+            //menu
             pokaz_menu(wybor);
             break;
         case 'k':
