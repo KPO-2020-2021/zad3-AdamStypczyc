@@ -180,7 +180,7 @@ double &Vector::operator[](int index)
 
 bool Vector::operator == (const Vector V)const
 {
-    if(abs(size[0]-V[0])<MIN_DIFF && abs(size[1]-V[1])<MIN_DIFF)
+    if(std::abs(size[0]-V[0])<=MIN_DIFF && std::abs(size[1]-V[1])<=MIN_DIFF)
     {
         return true;
     }

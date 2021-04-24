@@ -24,13 +24,14 @@ public:
     Matrix operator+(Matrix tmp);
     Matrix operator-(Matrix tmp);
 
+    double Wyznacznik_Gauss();
     double &operator()(unsigned int row, unsigned int column);
 
     const double &operator()(unsigned int row, unsigned int column) const;
     void StopienNaRadian();
     void Oblicz_Macierz_Obrotu();
     void przypisz_stopnie(double stopnie);
-    bool operator == (const Matrix tmp)const;
+    bool operator==(const Matrix tmp) const;
 };
 
 std::istream &operator>>(std::istream &in, Matrix &mat);
@@ -232,12 +233,39 @@ void Matrix::przypisz_stopnie(double stopnie)
     kat_stopnie = stopnie;
 }
 
-bool Matrix::operator == (const Matrix tmp)const
+bool Matrix::operator==(const Matrix tmp) const
 {
-    if(abs(this->value[0][0]-tmp(0, 0))<MIN_DIFF && abs(this->value[1][0]-tmp(1, 0))<MIN_DIFF && abs(this->value[0][1]-tmp(0, 1))<MIN_DIFF && abs(this->value[1][1]-tmp(1,1))<MIN_DIFF )
+    // if (std::abs(this->value[0][0] - tmp(0, 0)) <= MIN_DIFF && std::abs(this->value[1][0] - tmp(1, 0)) <= MIN_DIFF && std::abs(this->value[0][1] - tmp(0, 1)) <= MIN_DIFF && std::abs(this->value[1][1] - tmp(1, 1)) <= MIN_DIFF)
+    if (std::abs(value[0][0] - tmp(0, 0)) <= MIN_DIFF && std::abs(value[1][0] - tmp(1, 0)) <= MIN_DIFF && std::abs(value[0][1] - tmp(0, 1)) <= MIN_DIFF && std::abs(value[1][1] - tmp(1, 1)) <= MIN_DIFF)
+
     {
         return true;
     }
     return false;
+}
+
+double Matrix::Wyznacznik_Gauss()
+//obliczanie wyznacznika
+{
+    double Wyznacznik = 1, ratio; //zmienna wyznacznika i stosunek potrzebny do odejmowania wartości w następnym wierszu(potrzebne przy zerowaniu)
+    for (int i = 0; i < SIZE; ++i)
+    {
+        for (int j = i + 1; j <= SIZE; ++j)
+        {
+            if (this->value[i][i] != 0)
+            {
+                ratio = this->value[j][i] / this->value[i][i];
+                for (int k = 0; k < SIZE; ++k)
+                {
+                    this->value[j][k] = this->value[j][k] - this->value[i][k] * ratio;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; ++i)
+    {
+        Wyznacznik = Wyznacznik * this->value[i][i];
+    }
+    return Wyznacznik;
 }
 #endif

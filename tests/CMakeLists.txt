@@ -5,8 +5,6 @@ set(TESTFILES        # All .cpp files in tests/
     main.cpp
     dummy.cpp
     testy.cpp
-    #test_matrix.cpp
-    #test_prostokat.cpp
 )
 
 set(TEST_MAIN unit_tests)   # Default name for test executable (change if you wish).

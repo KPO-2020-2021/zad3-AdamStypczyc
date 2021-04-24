@@ -94,33 +94,77 @@ int menu()
      * tworzenie prostokąta
      */
     std::cout << "Od jakiego punktu mają wychodzić pozostałe punkty?\nPodaj współrzędne x,y " << std::endl;
-    std::cin >> tab1[0];
-    std::cin >> tab1[1];
-    poczatek = Vector(tab1);
-    std::cout << "Podaj szerokość prostokata" << std::endl;
-    while(1)
+    while (1)
     {
-        std::cin >> w;
-        if(w==0)
+        std::cin >> tab1[0];
+        if (std::cin.good())
         {
-            std::cerr << "Błąd!!! Szerokość nie może być równa 0.\nPodaj wartość jeszcze raz." <<std::endl;
+            break;
         }
         else
         {
+            std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(1024, '\n');
+        }
+    }
+    while (1)
+    {
+        std::cin >> tab1[1];
+        if (std::cin.good())
+        {
             break;
+        }
+        else
+        {
+            std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(1024, '\n');
+        }
+    }
+    poczatek = Vector(tab1);
+    std::cout << "Podaj szerokość prostokata" << std::endl;
+    while (1)
+    {
+        std::cin >> w;
+        if (std::cin.good())
+        {
+            if (w == 0)
+            {
+                std::cerr << "Błąd!!! Szerokość nie może być równa 0.\nPodaj wartość jeszcze raz." << std::endl;
+            }
+            else
+            {
+                break;
+            }
+        }
+        else
+        {
+            std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(1024, '\n');
         }
     }
     std::cout << "Podaj wysokość prostokata" << std::endl;
-    while(1)
+    while (1)
     {
         std::cin >> h;
-        if(h==0)
+        if (std::cin.good())
         {
-            std::cerr << "Błąd!!! Wysokość nie może być równa 0.\nPodaj wartość jeszcze raz." <<std::endl;
+            if (h == 0)
+            {
+                std::cerr << "Błąd!!! Wysokość nie może być równa 0.\nPodaj wartość jeszcze raz." << std::endl;
+            }
+            else
+            {
+                break;
+            }
         }
         else
         {
-            break;
+            std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+            std::cin.clear();
+            std::cin.ignore(1024, '\n');
         }
     }
     std::cout << "------------------------------------" << std::endl;
@@ -155,15 +199,41 @@ int menu()
              * i obrót
              */
             std::cout << "O jaki kąt ma się obrócić?" << std::endl;
-            std::cin >> kat;
+            while (1)
+            {
+                std::cin >> kat;
+                if (std::cin.good())
+                {
+                    break;
+                }
+                else
+                {
+                    std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(1024, '\n');
+                }
+            }
             std::cout << "Ile razy ma się obrócić? " << std::endl;
-            std::cin >> n;
+            while (1)
+            {
+                std::cin >> n;
+                if (std::cin.good())
+                {
+                    break;
+                }
+                else
+                {
+                    std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(1024, '\n');
+                }
+            }
             kat = kat * n;
-            while(kat < 0)
+            while (kat < 0)
             {
                 kat = kat + 360;
             }
-            while(kat > 0)
+            while (kat > 0)
             {
                 kat = kat - 360;
             }
@@ -171,8 +241,8 @@ int menu()
             obrot.przypisz_stopnie(kat);
             obrot.StopienNaRadian();
             obrot.Oblicz_Macierz_Obrotu();
-                if (!ZapisWspolrzednychDoPliku("../datasets/prostokat.dat", Pr * obrot))
-                    return 1;
+            if (!ZapisWspolrzednychDoPliku("../datasets/prostokat.dat", Pr * obrot))
+                return 1;
             Lacze.Rysuj();
             //wyświetlenie długości boków prostokąta Pr
             Pr.dlugosc();
@@ -185,8 +255,34 @@ int menu()
              */
             translacja = Vector();
             std::cout << "O jaki wektor [x,y] ma być przesunięty prostokat? \nPodaj dwie liczby, 1. to x, a 2. to y" << std::endl;
-            std::cin >> tab2[0];
-            std::cin >> tab2[1];
+            while (1)
+            {
+                std::cin >> tab2[0];
+                if (std::cin.good())
+                {
+                    break;
+                }
+                else
+                {
+                    std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(1024, '\n');
+                }
+            }
+            while (1)
+            {
+                std::cin >> tab2[1];
+                if (std::cin.good())
+                {
+                    break;
+                }
+                else
+                {
+                    std::cout << "Podana liczba nie była liczbą :0\nPodaj wartość jeszcze raz" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore(1024, '\n');
+                }
+            }
             translacja = Vector(tab2);
             Pr = Pr + translacja;
             if (!ZapisWspolrzednychDoPliku("../datasets/prostokat.dat", Pr))

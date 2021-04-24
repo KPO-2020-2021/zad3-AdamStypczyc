@@ -58,22 +58,13 @@ TEST_CASE("test Vector Suma 4")
 TEST_CASE("test Vector Suma 5")
 {
   Vector x, y, z;
-  double tab1[2] = {6, 6}, tab2[2] = {0.0000000001, 0.0000000001}, tab3[2] = {6, 6};
-  x = Vector(tab1);
-  y = Vector(tab2);
-  z = Vector(tab3);
-  CHECK(x + y == z);
-}
-TEST_CASE("test Vector Suma 6")
-{
-  Vector x, y, z;
   double tab1[2] = {6, 6}, tab2[2] = {0.00000000001, 0.00000000001}, tab3[2] = {6, 6};
   x = Vector(tab1);
   y = Vector(tab2);
   z = Vector(tab3);
   CHECK(x + y == z);
 }
-TEST_CASE("test Vector Suma 7")
+TEST_CASE("test Vector Suma 6")
 {
   Vector x, y, z;
   double tab1[2] = {6, 6}, tab2[2] = {0.00000000009, 0.00000000009}, tab3[2] = {6, 6};
@@ -118,16 +109,8 @@ TEST_CASE("test Vector Różnica 4")
   z = Vector(tab3);
   CHECK(x - y == z);
 }
+
 TEST_CASE("test Vector Różnica 5")
-{
-  Vector x, y, z;
-  double tab1[2] = {6, 6}, tab2[2] = {0.0000000001, 0.0000000001}, tab3[2] = {6, 6};
-  x = Vector(tab1);
-  y = Vector(tab2);
-  z = Vector(tab3);
-  CHECK(x - y == z);
-}
-TEST_CASE("test Vector Różnica 6")
 {
   Vector x, y, z;
   double tab1[2] = {6, 6}, tab2[2] = {0.00000000001, 0.00000000001}, tab3[2] = {6, 6};
@@ -136,7 +119,7 @@ TEST_CASE("test Vector Różnica 6")
   z = Vector(tab3);
   CHECK(x - y == z);
 }
-TEST_CASE("test Vector Różnica 7")
+TEST_CASE("test Vector Różnica 6")
 {
   Vector x, y, z;
   double tab1[2] = {6, 6}, tab2[2] = {0.00000000009, 0.00000000009}, tab3[2] = {6, 6};
@@ -463,6 +446,30 @@ TEST_CASE("Test prostokat translacja 2")
   CHECK(x[2][1] == 30);
   CHECK(x[3][1] == 0);
 }
+TEST_CASE("Liczenie wyznacznika macierzy 1")
+{
+  Matrix x = Matrix();
+  double wynik = 0;
+  double tab1[2][2] = {{1, 2}, {3, 4}};
+  x = Matrix(tab1);
+  wynik = x.Wyznacznik_Gauss();
+  std::cout << "Wyznacznik jest równy: " << wynik << std::endl;
+  CHECK(wynik == -2);
+
+  Matrix y = Matrix();
+  double tab2[2][2] = {{0, 0}, {3, 4}};
+  y = Matrix(tab2);
+  wynik = y.Wyznacznik_Gauss();
+  std::cout << "Wyznacznik jest równy: " << wynik << std::endl;
+  CHECK(wynik == 0);
+
+  Matrix z = Matrix();
+  double tab3[2][2] = {{5, 6}, {-2, 3}};
+  z = Matrix(tab3);
+  wynik = z.Wyznacznik_Gauss();
+  std::cout << "Wyznacznik jest równy: " << wynik << std::endl;
+  CHECK(wynik == 27);
+}
 TEST_CASE("Test prostokat sprawdzanie długości 1")
 {
   Prostokat x = Prostokat();
@@ -481,7 +488,7 @@ TEST_CASE("Test prostokat sprawdzanie długości 1")
   {
     x = x * obrot;
   }
-  for (long int j = 0; j < 36000000; ++j)
+  for (long int j = 0; j < 360000; ++j)
   {
     y = y * obrot;
   }

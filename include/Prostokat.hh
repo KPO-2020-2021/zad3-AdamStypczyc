@@ -6,22 +6,22 @@
 class Prostokat
 {
 private:
-    Vector wspol[4];
+    Vector wspol[4]; //prostokąt jako tablica 4 wektorów
 
 public:
-    Prostokat();
-    Prostokat(Vector poczatek, double h = 0, double w = 0);
-    Vector &operator[](int i);
-    const Vector operator[](int i) const;
-    Prostokat operator+(const Vector translacja);
-    void dlugosc();
-    Prostokat &operator*(Matrix Macierz_obrotu);
+    Prostokat();                                            //konstruktor bezparametryczny
+    Prostokat(Vector poczatek, double h = 0, double w = 0); //konstruktor parametryczny określający prostokąt poprzez podaną jego szerokość i wysokość
+    Vector &operator[](int i);                              //operator indeksowanie set
+    const Vector operator[](int i) const;                   //operator indeksowanie get
+    Prostokat operator+(const Vector translacja);           //operator dodawania
+    void dlugosc();                                         //sprawdzanie długości boków po obrocie
+    Prostokat &operator*(Matrix Macierz_obrotu);            //mnożenie prostokąt razy macierz
 };
 Prostokat::Prostokat()
 {
-    for(int i = 0; i<2*SIZE; i++)
+    for (int i = 0; i < 2 * SIZE; i++)
     {
-        wspol[i]=Vector();
+        wspol[i] = Vector();
     }
 }
 Prostokat::Prostokat(Vector poczatek, double h, double w)
@@ -53,10 +53,10 @@ Prostokat Prostokat::operator+(const Vector translacja)
 }
 void Prostokat::dlugosc()
 {
-    double Wek0[2], Wek1[2], Wek2[2], Wek3[2];
-    double Bok1, Bok2, Bok3, Bok0;
-    Wek0[0] = wspol[0][0] - wspol[1][0]; //x
-    Wek0[1] = wspol[0][1] - wspol[1][1]; //y
+    double Wek0[2], Wek1[2], Wek2[2], Wek3[2]; //wekotry, dzięki którym poprzez licznie długości wektora są obliczane długości boków prostokąta
+    double Bok1, Bok2, Bok3, Bok0;             // boki prostokata
+    Wek0[0] = wspol[0][0] - wspol[1][0];       //x        wektory obliczane są ze wzorów matematycznych
+    Wek0[1] = wspol[0][1] - wspol[1][1];       //y
 
     Wek1[0] = wspol[1][0] - wspol[2][0]; //x
     Wek1[1] = wspol[1][1] - wspol[2][1]; //y
@@ -67,12 +67,12 @@ void Prostokat::dlugosc()
     Wek3[0] = wspol[3][0] - wspol[0][0]; //x
     Wek3[1] = wspol[3][1] - wspol[0][1]; //y
 
-    Bok0 = sqrt(pow(Wek0[0], 2) + pow(Wek0[1], 2));
+    Bok0 = sqrt(pow(Wek0[0], 2) + pow(Wek0[1], 2)); //długości obliczone ze wzoru
     Bok1 = sqrt(pow(Wek1[0], 2) + pow(Wek1[1], 2));
     Bok2 = sqrt(pow(Wek2[0], 2) + pow(Wek2[1], 2));
     Bok3 = sqrt(pow(Wek3[0], 2) + pow(Wek3[1], 2));
     std::cout << std::endl;
-    if (abs(Bok0 - Bok2) < MIN_DIFF && abs(Bok1 - Bok3) < MIN_DIFF)
+    if (std::abs(Bok0 - Bok2) <= MIN_DIFF && std::abs(Bok1 - Bok3) <= MIN_DIFF) //jeżeli różnica długości boków mniejsza niż MIN_DIFF to wszystko w porządku
     {
         std::cout << ":) Naprzeciwległe boki są sobie równe, a ich długości wynoszą: " << std::endl;
     }
@@ -80,19 +80,19 @@ void Prostokat::dlugosc()
     {
         std::cout << ":( Naprzeciwległe boki nie są sobie równe, a ich długości wynoszą: " << std::endl;
     }
-    std::cout << Bok0 << std::endl;
-    std::cout << Bok1 << std::endl;
-    std::cout << Bok2 << std::endl;
-    std::cout << Bok3 << std::endl;
+    std::cout << std::fixed << std::setprecision(10) << Bok0 << std::endl;
+    std::cout << std::fixed << std::setprecision(10) << Bok1 << std::endl;
+    std::cout << std::fixed << std::setprecision(10) << Bok2 << std::endl;
+    std::cout << std::fixed << std::setprecision(10) << Bok3 << std::endl;
 }
 Prostokat &Prostokat::operator*(Matrix Macierz_obrotu)
 {
     for (int i = 0; i < 2 * SIZE; i++)
     {
-        double _x = wspol[i][0];
+        double _x = wspol[i][0]; //przypisujemy do zmiennych pomocniczych, żeby nie zmienić przypadkowo wartości i nie operować na błędnej wartości
         double _y = wspol[i][1];
-        wspol[i][0]=_x * Macierz_obrotu(0,0)+ _y * Macierz_obrotu(0, 1);
-        wspol[i][1]=_x * Macierz_obrotu(1,0)+ _y * Macierz_obrotu(1, 1);
+        wspol[i][0] = _x * Macierz_obrotu(0, 0) + _y * Macierz_obrotu(0, 1);
+        wspol[i][1] = _x * Macierz_obrotu(1, 0) + _y * Macierz_obrotu(1, 1);
     }
     return *this;
 }
