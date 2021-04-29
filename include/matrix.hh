@@ -23,6 +23,7 @@ public:
 
     Matrix operator+(Matrix tmp);
     Matrix operator-(Matrix tmp);
+    Matrix operator*(Matrix tmp);
 
     double Wyznacznik_Gauss();
     double &operator()(unsigned int row, unsigned int column);
@@ -180,6 +181,21 @@ Matrix Matrix::operator-(Matrix tmp)
     }
     return result;
 }
+Matrix Matrix::operator*(Matrix tmp)
+{   
+    Matrix result = Matrix();
+    for(int i=0; i<SIZE; ++i)
+    {
+        for(int j=0; j<SIZE; ++j)
+        {
+            for(int k=0; k<SIZE; ++k)
+            {
+                result.value[i][j] += this->value[i][k] * tmp.value[k][j];
+            }
+        }
+    }
+    return result;
+}
 /*!
  *  Przeciazenie operatora >>                                                 
  *  Argumenty:                                                                
@@ -250,6 +266,7 @@ double Matrix::Wyznacznik_Gauss()
     double Wyznacznik = 1, ratio; //zmienna wyznacznika i stosunek potrzebny do odejmowania wartości w następnym wierszu(potrzebne przy zerowaniu)
     for (int i = 0; i < SIZE; ++i)
     {
+
         for (int j = i + 1; j <= SIZE; ++j)
         {
             if (this->value[i][i] != 0)

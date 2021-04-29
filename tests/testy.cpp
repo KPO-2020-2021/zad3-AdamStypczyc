@@ -495,3 +495,19 @@ TEST_CASE("Test prostokat sprawdzanie długości 1")
   x.dlugosc();
   y.dlugosc();
 }
+TEST_CASE("Test macierz razy macierz 1")
+{
+  Matrix x, y, z, t;
+  x = Matrix();
+  y = Matrix();
+  z = Matrix();
+  t = Matrix();
+  double tabx[2][2] = {{1, 2}, {3, 4}}, taby[2][2] = {{2, 3}, {4, 7}}, tabz[2][2] = {{10, 17}, {22, 37}};
+
+  x = Matrix(tabx);
+  y = Matrix(taby);
+  z = Matrix(tabz);
+  t = x * y;
+  std::cout << t << std::endl;
+  CHECK(z == t);
+}
